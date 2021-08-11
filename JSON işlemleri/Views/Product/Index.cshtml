@@ -1,0 +1,114 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<button onclick="AddProduct()">Yeni Ekle</button>
+<table>
+    <tr>
+        <td>id</td>
+        <td>Ürün Adı</td>
+        <td>#</td>
+        <td>#</td>
+
+    </tr>
+</table>
+
+
+<h2>Index</h2>
+
+
+@section sripts {
+
+
+    <script>
+
+        let url = "/product/getall";
+        let model = {}
+
+        $.get(url, model, function (res) {
+
+            res.forEach(element => {
+
+                var htmlAppend = ` <tr>  <td>${element.Id}</td> <td>${element.ProductName}</td> <td><button onclick="removeProduct('${element.Id}')">Sil</button></td>  <td><button onclick="UpdateProduct('${element.Id}')">Güncelle</button></td> </tr> ` ;
+                $("table").append(htmlAppend);
+
+            });
+
+        })
+       
+        function removeProduct(id)
+        {
+            let url = "/product/Delete/"+id
+            $.post(url,  function (res) {
+
+                if (res) {
+                    alert("Basarili")
+
+                }
+                else {
+                    alert("Basarısız")
+                }
+
+
+
+            })
+
+        }
+        
+        function UpdateProduct(id) {
+
+            let modell = {
+                Id: id,
+                ProductName: "Bir adet sefa vardı"
+
+            }
+
+
+
+
+            let url = "/product/Update/" + id
+            $.post(url, modell, function (res) {
+            
+                if (res) {
+                    alert("Basarili")
+
+                }
+                else {
+                    alert("Basarısız")
+                }
+
+
+
+            })
+
+        }
+
+        function AddProduct() {
+            let urll = "/product/Add" 
+            let modell = {
+                Id: 4,
+                ProductName: "Bir adet kaan vardı"
+
+            }
+
+            $.post(urll, modell, function (res) {
+
+                if (res) {
+                    alert("Basarili")
+
+                }
+                else {
+                    alert("Basarısız")
+                }
+
+
+
+            })
+        }
+
+
+
+    </script>
+
+
+}
